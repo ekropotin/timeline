@@ -13,7 +13,10 @@ const inProjectSrc = (file) => inProject('src', file);
 module.exports = {
   context: sourcePath,
   entry: {
-    main: './index.jsx',
+    main: [
+      'react-hot-loader/patch',
+      './index.jsx'
+    ],
     vendor: [
       'react',
       'react-dom',

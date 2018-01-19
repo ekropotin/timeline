@@ -1,12 +1,62 @@
-// Please, feel free to use JavaScript instead TypeScript
+//import 'API';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'store/createStore';
+import { AppContainer } from 'react-hot-loader';
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { App } from './containers/App';
+const store = createStore(window.__INITIAL_STATE__);
 
-import './API';
+// Render Setup
+// ------------------------------------
+const MOUNT_NODE = document.getElementById('root');
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+let render = () => {
+  const PageLayout = require('./containers/App').default;
+
+  ReactDOM.render(
+    <AppContainer>
+      <Provider store={store}>
+        <PageLayout />
+      </Provider>
+    </AppContainer>,
+
+    MOUNT_NODE
+  );
+};
+
+// Development Tools
+// ------------------------------------
+if (__DEV__) {
+  if (module.hot) {
+    const renderApp = render;
+    const renderError = (error) => {
+      const RedBox = require('redbox-react').default;
+
+      ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
+    };
+
+    render = () => {
+      try {
+        renderApp();
+      } catch (e) {
+        console.error(e);
+        renderError(e);
+      }
+    };
+
+    // Setup hot module replacement
+    module.hot.accept([
+      './components/pageLayout/PageLayout'
+    ], () =>
+      setImmediate(() => {
+        ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+        render();
+      })
+    );
+  }
+}
+
+// Let's Go!
+// ------------------------------------
+if (!__TEST__) render();
