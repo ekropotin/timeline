@@ -7,6 +7,9 @@ const isProduction = process.argv.indexOf('-p') >= 0;
 const outPath = Path.join(__dirname, './dist');
 const sourcePath = Path.join(__dirname, './src');
 
+const inProject = Path.resolve.bind(Path, __dirname);
+const inProjectSrc = (file) => inProject('src', file);
+
 module.exports = {
   context: sourcePath,
   entry: {
@@ -23,6 +26,10 @@ module.exports = {
   },
   target: 'web',
   resolve: {
+    modules: [
+      inProject('src'),
+      'node_modules'
+    ],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module
     // https://github.com/Microsoft/TypeScript/issues/11677
@@ -31,7 +38,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.(ts|js|tsx|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },

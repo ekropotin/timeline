@@ -10,3 +10,7 @@ declare module '*.png' {
   const src: string;
   export default src;
 }
+
+declare var __DEV__: string;
+
+declare var __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
