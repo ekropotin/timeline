@@ -73,8 +73,8 @@ export const Users: User[] = array(USERS_COUNT).map(i => ({id: i, name: faker.in
 const files$ = new Rx.Subject<File>();
 const comments$ = new Rx.Subject<Comment>();
 
-const Files = [];
-const Comments = [];
+export const Files = [];
+export const Comments = [];
 
 files$.subscribe(v => Files.push(v));
 comments$.subscribe(v => Comments.push(v));

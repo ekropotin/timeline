@@ -1,42 +1,47 @@
 import * as React from 'react';
-import faker from 'faker';
+import TimeAgo from 'javascript-time-ago';
 
 import * as ItemCss from '../../assets/item.css';
 import * as CommentCss from './index.css';
 
-interface CommentProps {
-	highlight?: boolean;
+export interface CommentProps {
+    id: number,
+    highlight?: boolean,
+    user: {
+        id: number,
+        avatar: string,
+        userName: string,
+    };
 
-	user: {
-		avatar: string,
-		userName: string,
-	};
+    file: {
+        id: number,
+        fileName: string,
+    };
 
-	file: {
-		fileName: string,
-	};
-
-	timestamp: Date;
-	text: string;
+    timestamp: Date;
+    text: string;
+    navigateToFile: (number) => any;
+    navigateToUser: (number) => any;
 }
 
 export class Comment extends React.Component<CommentProps> {
-	public render() {
-		const { user, file, text } = this.props;
+    public render() {
+        const { id, user, file, text, timestamp, navigateToFile, navigateToUser } = this.props;
 
-		const { avatar, userName } = user;
-		const { fileName } = file;
+        const { avatar, userName } = user;
+        const { fileName } = file;
 
-		const timeStamp = '5 minutes ago';
+        const timeAgo = new TimeAgo('en-US');
+        const ago = timeAgo.format(timestamp);
 
-		return (<div className={`${ItemCss.item} ${CommentCss.root}`} data-highlight={this.props.highlight ? 'true' : null }>
-			<img src={avatar} className={CommentCss.avatar} />
-			<div>
-				<a href="#">{userName}</a> commented <a href="#">{fileName}</a> {timeStamp}
-			</div>
-			<div className={CommentCss.text}>
-				{text}
-			</div>
-		</div>);
-	}
+        return (<div key="comment-{id}" className={`${ItemCss.item} ${CommentCss.root}`} data-highlight={this.props.highlight ? 'true' : null }>
+            <img src={avatar} className={CommentCss.avatar} />
+            <div>
+                <a href="#" onClick={() => navigateToUser(user.id)}>{userName}</a> commented <a href="#" onClick={() => navigateToFile(file.id)}>{fileName}</a> {ago}
+            </div>
+            <div className={CommentCss.text}>
+                {text}
+            </div>
+        </div>);
+    }
 }

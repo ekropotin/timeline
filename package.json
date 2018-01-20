@@ -52,6 +52,7 @@
     "@fortawesome/react-fontawesome": "0.0.17",
     "classnames": "^2.2.5",
     "faker": "^4.1.0",
+    "javascript-time-ago": "^1.0.21",
     "jszip-cli": "^1.4.24",
     "office-ui-fabric-react": "^5.32.0",
     "react": "^16.1.1",

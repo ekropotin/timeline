@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'store/createStore';
 import { AppContainer } from 'react-hot-loader';
+import en from 'javascript-time-ago/locale/en';
+import TimeAgo from 'javascript-time-ago';
 
+TimeAgo.locale(en);
 const store = createStore(window.__INITIAL_STATE__);
 
 // Render Setup

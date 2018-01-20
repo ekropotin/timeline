@@ -1,10 +1,16 @@
 export type SelectedObjectType = "project" | "user" | "file";
 
-export interface SelectedObjectState {
+export type SelectedObjectState = {
     id: number,
     type: SelectedObjectType
 }
 
+export type TimelineState = {
+    pendingEvents: any[],
+    currentEvents: any[]
+}
+
 export interface RootState {
-    selectedObject: SelectedObjectState
+    selectedObject: SelectedObjectState,
+    timeline: TimelineState
 }
