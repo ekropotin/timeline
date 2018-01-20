@@ -1,22 +1,26 @@
 .header {
-	padding-top: 20px;
+    padding-top: 20px;
 }
 
 .projectname {
-	color: #333;
+    color: #333;
 }
 
 .link, .separator {
-	text-decoration: none;
-	color: #333;
-	margin-right: 10px;
-	font-size: 24px;
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+    font-size: 24px;
 }
 
 .link:hover {
-	color: #06c;
+    color: #06c;
 }
 
 .breadcrumbs {
-	margin-top: 20px;
+    margin-top: 20px;
+}
+
+.level_wrapper {
+    display: inline;
 }

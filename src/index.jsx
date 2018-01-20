@@ -12,7 +12,7 @@ const store = createStore(window.__INITIAL_STATE__);
 const MOUNT_NODE = document.getElementById('root');
 
 let render = () => {
-  const PageLayout = require('./containers/App').default;
+  const PageLayout = require('./containers/App/index').App;
 
   ReactDOM.render(
     <AppContainer>
@@ -47,7 +47,7 @@ if (__DEV__) {
 
     // Setup hot module replacement
     module.hot.accept([
-      './components/pageLayout/PageLayout'
+      './containers/App/index'
     ], () =>
       setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE);
@@ -59,4 +59,4 @@ if (__DEV__) {
 
 // Let's Go!
 // ------------------------------------
-if (!__TEST__) render();
+render();

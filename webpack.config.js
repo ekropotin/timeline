@@ -41,7 +41,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.(ts|js|tsx|jsx)$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },
@@ -49,10 +49,10 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: isProduction
-          ? 'awesome-typescript-loader?module=es6'
+          ? 'awesome-typescript-loader?module=es6&useBabel=true'
           : [
             'react-hot-loader/webpack',
-            'awesome-typescript-loader'
+            'awesome-typescript-loader?useBabel=true'
           ]
       },
       // css
@@ -94,7 +94,8 @@ module.exports = {
   },
   plugins: [
     new Webpack.DefinePlugin({
-      'process.env.NODE_ENV': isProduction === true ? JSON.stringify('production') : JSON.stringify('development')
+      'process.env.NODE_ENV': isProduction === true ? JSON.stringify('production') : JSON.stringify('development'),
+      __DEV__: !isProduction
     }),
     new Webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

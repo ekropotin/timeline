@@ -67,8 +67,8 @@ function isFile(x: any): x is File {
 	return x.type === 'file';
 }
 
-const Projects: Project[] = array(PROJECT_COUNT).map(i => ({id: i, title: faker.company.companyName()}));
-const Users: User[] = array(USERS_COUNT).map(i => ({id: i, name: faker.internet.userName(), avatar: faker.image.avatar()}));
+export const Projects: Project[] = array(PROJECT_COUNT).map(i => ({id: i, title: faker.company.companyName()}));
+export const Users: User[] = array(USERS_COUNT).map(i => ({id: i, name: faker.internet.userName(), avatar: faker.image.avatar()}));
 
 const files$ = new Rx.Subject<File>();
 const comments$ = new Rx.Subject<Comment>();

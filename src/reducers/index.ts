@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 
+import selectedObject from './selectedObject';
+
 export const makeRootReducer = () => {
-  return combineReducers(
-    {
-      
-    }
-  );
+    return combineReducers(
+        {
+            selectedObject
+        }
+    );
 };
 
 export default makeRootReducer;
