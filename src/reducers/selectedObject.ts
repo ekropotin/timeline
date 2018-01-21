@@ -1,5 +1,4 @@
 import { Actions } from 'actions';
-import { Projects } from 'API';
 
 const emptyState = null;
 // ------------------------------------
@@ -8,7 +7,7 @@ const emptyState = null;
 const ACTION_HANDLERS = {
     [Actions.NAVIGATE_TO_HOME]: (state, action) => (null),
 
-    [Actions.NAVIGATE_TO_USER]: (state, action) => ({ id: action.payload, type: 'user'}),
+    [Actions.NAVIGATE_TO_USER]: (state, action) => ({ id: action.payload, type: 'user' }),
 
     [Actions.NAVIGATE_TO_PROJECT]: (state, action) => ({ id: action.payload, type: 'project' }),
 

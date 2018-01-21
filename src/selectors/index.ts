@@ -7,10 +7,12 @@ export const getEventsList = (state: RootState) => (state.timeline.currentEvents
 
 export const getPendingEventsCount = (state: RootState) => (state.timeline.pendingEvents.length);
 
+export const hasMoreEvents = (state: RootState) => (state.timeline.hasMoreEvents);
+
 export const getSelectedObject = createSelector(
-    [(state: RootState) => (state.selectedObject)], 
-    
-    (selectedObject) => { 
+    [(state: RootState) => (state.selectedObject)],
+
+    (selectedObject) => {
         if (!selectedObject) {
             return null;
         }

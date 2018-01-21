@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "declaration": false,
     "noImplicitAny": false,
+    "noUnusedLocals": true,
     "noImplicitReturns": false,
     "removeComments": true,
     "strictNullChecks": false,

@@ -23,7 +23,7 @@ export const createStore = (initialState = {}) => {
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
-  const store:any = createReduxStore(
+  const store: any = createReduxStore(
     makeRootReducer(),
     initialState,
     composeEnhancers(

@@ -7,10 +7,11 @@ export type SelectedObjectState = {
 
 export type TimelineState = {
     pendingEvents: any[],
-    currentEvents: any[]
+    currentEvents: any[],
+    hasMoreEvents: boolean
 }
 
-export interface RootState {
+export type RootState = {
     selectedObject: SelectedObjectState,
     timeline: TimelineState
 }

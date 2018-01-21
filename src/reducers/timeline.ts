@@ -1,15 +1,16 @@
 import { Actions } from 'actions';
-import { Projects } from 'API';
+import { TimelineState } from 'store/state';
 
-const emptyState = {
+const emptyState: TimelineState = {
     pendingEvents: [],
-    currentEvents: []
+    currentEvents: [],
+    hasMoreEvents: true
 };
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-    [Actions.CLEAR_TIMELINE]: (state, action) => ({...emptyState}),
+    [Actions.CLEAR_TIMELINE]: (state, action) => ({ ...emptyState }),
 
     [Actions.HANDLE_NEW_TIMELINE_EVENTS]: (state, action) => {
         const items = action.payload;
@@ -28,6 +29,10 @@ const ACTION_HANDLERS = {
         const newArray = state.currentEvents.slice(0);
         newArray.unshift(...state.pendingEvents);
         return { pendingEvents: [], currentEvents: newArray };
+    },
+
+    [Actions.SET_NO_MORE_EVENTS]: (state, action) => {
+        return { ...state, hasMoreEvents: false };
     }
 };
 

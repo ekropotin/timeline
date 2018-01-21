@@ -1,18 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroller';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 
 import { FileIsUploaded, FileIsUploadedProps } from '../FileIsUploaded';
 import { Comment, CommentProps } from '../Comment';
-import { ShowNew } from '../ShowNew';
-
-import { getSelectedObject, getEventsList, getPendingEventsCount } from 'selectors';
-import { navigateToFile, navigateToUser, initTimeline, destroyTimeline, loadPendingEvents } from 'actions';
+import ShowNew from '../ShowNew';
+import { getSelectedObject, getEventsList, hasMoreEvents } from 'selectors';
+import { navigateToFile, navigateToUser, initTimeline, destroyTimeline, loadMoreEvents } from 'actions';
 import * as API from 'API';
-
-import {
-    Spinner,
-    SpinnerSize
-} from 'office-ui-fabric-react/lib/Spinner';
 
 const getCommentProps = (comment, navigateToFile, navigateToUser): CommentProps => {
     const usr = API.Users.find((usr) => usr.id === comment.userId);
@@ -56,15 +52,14 @@ const getFileProps = (file, navigateToFile, navigateToUser): FileIsUploadedProps
 type Props = {
     currentObject: any,
     eventsList: any[],
-    pendingEventsCount: number,
     navigateToFile: () => any,
     navigateToUser: () => any,
-    loadPendingEvents: () => any,
     initTimeline: () => any,
-    destroyTimeline: () => any
+    destroyTimeline: () => any,
+    loadMoreEvents: (Date) => any,
+    hasMore: boolean
 }
 
-//TODO: optimze: now timeline rerenders on pending events update
 export class Timeline extends React.Component<Props> {
     constructor(props) {
         super(props);
@@ -93,8 +88,17 @@ export class Timeline extends React.Component<Props> {
             <div>
                 <h2>Timeline</h2>
                 <div>
-                    <ShowNew count={this.props.pendingEventsCount} load={this.props.loadPendingEvents}/>
-                    {this.props.eventsList.map((event) => renderActivityItem(event))};
+                    <ShowNew />
+                    <InfiniteScroll
+                        initialLoad={false}
+                        pageStart={0}
+                        loadMore={this.props.loadMoreEvents}
+                        hasMore={this.props.hasMore}
+                        loader={<Spinner size={SpinnerSize.large} label='Loading older events...' ariaLive='assertive' />}
+                    >
+                        {this.props.eventsList.map((event) => renderActivityItem(event))};
+                    </InfiniteScroll>
+
                 </div>
             </div>
 
@@ -107,13 +111,13 @@ const mapDispatchToProps = {
     navigateToUser,
     initTimeline,
     destroyTimeline,
-    loadPendingEvents
+    loadMoreEvents
 };
 
 const mapStateToProps = (state) => ({
     currentObject: getSelectedObject(state),
     eventsList: getEventsList(state),
-    pendingEventsCount: getPendingEventsCount(state)
+    hasMore: hasMoreEvents(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timeline);

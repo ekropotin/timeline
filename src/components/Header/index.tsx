@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
-import * as s from './style.css';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 
 import { Projects } from 'API';
-import { navigateToProject, navigateToHome, navigateToFile, navigateToUser } from 'actions';
+import { navigateToProject, navigateToHome } from 'actions';
 import { getSelectedObject } from 'selectors';
+
+import * as s from './style.css';
 /*
   TODO: Please, do not forget that path can be:
   - Home
@@ -15,67 +16,71 @@ import { getSelectedObject } from 'selectors';
   - Home / User name
 */
 
-//TODO: use React.SFC<Props>
-export const Header = ({ currentObject, navigateToProject, navigateToHome }) => {
+type Props = {
+  currentObject: any,
+  navigateToProject: (number) => any,
+  navigateToHome: () => any
+}
+
+export const Header: React.SFC<Props> = (props) => {
   const renderLevels = () => {
-    if (!currentObject) {
+    if (!props.currentObject) {
       return null;
     }
-    if (currentObject.type === 'user') {
+    if (props.currentObject.type === 'user') {
       return (
         <div className={s.level_wrapper}>
           <span className={s.separator}>/</span>
-          <a className={s.link} href="#">{currentObject.name}</a>
+          <a className={s.link} href="#">{props.currentObject.name}</a>
         </div>
       );
     } else {
-      if (currentObject.type === 'file') {
+      if (props.currentObject.type === 'file') {
         return (
           <div className={s.level_wrapper}>
             <span className={s.separator}>/</span>
-            <a className={s.link} href="#" onClick={() => navigateToProject(currentObject.project.id)}>{currentObject.project.title}</a>
+            <a className={s.link} href="#" onClick={() => props.navigateToProject(props.currentObject.project.id)}>{props.currentObject.project.title}</a>
             <span className={s.separator}>/</span>
-            <a className={s.link} href="#">{currentObject.name}</a>
+            <a className={s.link} href="#">{props.currentObject.name}</a>
           </div>
         )
       } else {
         //Project
-        return(
+        return (
           <div className={s.level_wrapper}>
             <span className={s.separator}>/</span>
-            <a className={s.link} href="#">{currentObject.title}</a>
+            <a className={s.link} href="#">{props.currentObject.title}</a>
           </div>
         )
-        
+
       }
     }
   }
 
   const renderSelectedItem = () => {
-    if (!currentObject) {
-      return(
+    if (!props.currentObject) {
+      return (
         <div>
           <ul>
-            {Projects.map((project) => 
-              <li key={project.id}><a className={s.link} href="#" onClick={() => navigateToProject(project.id)}>{project.title}</a></li>
+            {Projects.map((project) =>
+              <li key={project.id}><a className={s.link} href="#" onClick={() => props.navigateToProject(project.id)}>{project.title}</a></li>
             )}
           </ul>
         </div>
       )
     }
-    if (currentObject.type === 'user') {
-      //TODO: avatar?
-      return (<h1 className={s.projectname}>{currentObject.name}</h1>);
+    if (props.currentObject.type === 'user') {
+      return (<h1 className={s.projectname}>{props.currentObject.name}</h1>);
     }
     //File
-    return (<h1 className={s.projectname}>{currentObject.name}</h1>);
+    return (<h1 className={s.projectname}>{props.currentObject.name}</h1>);
   }
 
   return (
     <header className={s.header}>
       <SearchBox />
       <div className={s.breadcrumbs}>
-        <a className={s.link} href="#" onClick={() => navigateToHome()}>All projects</a>
+        <a className={s.link} href="#" onClick={() => props.navigateToHome()}>All projects</a>
         {renderLevels()}
       </div>
       {renderSelectedItem()}
